@@ -1,6 +1,6 @@
 ({
     name: "UDP伺服器", // Category Name
-    description: "",
+    description: "UDP server",
     author: "YP",
     category: "Communication",
     version: "1.0.0",
