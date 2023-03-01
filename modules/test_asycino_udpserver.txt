@@ -1,0 +1,32 @@
+import machine
+import network
+from dgram import UDPServer
+import uasyncio
+from machine import Pin
+
+def cb(msg,adr):
+  print((msg.decode()))
+
+async def runInasyncio_10():
+  while True:
+    if wlan.status('rssi')>0:
+      machine.reset()
+    await uasyncio.sleep(0.5)
+
+
+
+wlan = network.WLAN(network.STA_IF); wlan.active(True); wlan.disconnect(); wlan.connect('AndroidAP0512', 'qrai7398')
+while not wlan.isconnected(): pass
+print('wifi ok')
+print((wlan.ifconfig()[0]))
+s = UDPServer()
+
+loop = uasyncio.get_event_loop()
+loop.create_task(runInasyncio_10())
+loop.create_task(s.serve(cb, (wlan.ifconfig()[0]),6188))
+
+loop.run_forever()
+
+
+
+UDPServer().sock.sendto(b'123',('192.168.43.1',6188))
